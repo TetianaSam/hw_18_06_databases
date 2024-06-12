@@ -1,0 +1,8 @@
+Task 4
+Create a one-table Vegetables and Fruit database. You need to store the following information:
+
+Name;
+Type (vegetable or fruit);
+Colour;
+Calorie content;
+Short description.

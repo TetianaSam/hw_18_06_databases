@@ -1,0 +1,14 @@
+Task 5
+
+Create the following queries for the table containing information about
+vegetables and fruit from the previous task:
+
+Displaying of all data from the table about vegetables and fruit.
+Displaying of all vegetables.
+Displaying of all fruit.
+Displaying of all the names of vegetables and fruit.
+Displaying of all colors. Colors should be unique.
+Displaying fruit of a specific color.
+Displaying vegetables of a particular color.
+
+
