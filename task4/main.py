@@ -10,11 +10,6 @@ def db_insert(db_cur, table, cols, vals):
    for item in cols:
       columns += f"{item},"
 
-   """
-   values = ""
-   for item in vals:
-      values += f"'{item}',"
-   """
 
    values = " "
    for item in range(len(vals)):
@@ -37,24 +32,23 @@ cur.execute("""CREATE TABLE IF NOT EXISTS veg_fruit (
             id INTEGER PRIMARY KEY,
             name TEXT,
             type TEXT,
-            colour TEXT,
-            calorieContent INTEGER,
-            shortDescription TEXT)""")
+            color TEXT,
+            calorie content INTEGER,
+            short description TEXT)""")
+if db_insert(cur, "veg_fruit", ["name", "type", "color", "calorie_content", "short_description"],
+             ["apple", "fruit", "red", 55, "worldwide popular fruit"]):
+    print("Record inserted successfully.")
+else:
+    print("Failed to insert record.")
 
-#cur.execute("""INSERT INTO users (name, age) VALUES ('Jan', 33)""")
-#cur.execute("""INSERT INTO users (name, age) VALUES (?, ?)""", ("Adam", 23))
-cur.execute("""INSERT INTO veg_fruit (name, type, colour, calorieContent, shortDescription) VALUES (?, ?, ?, ?, ?)""",
-            ('tomato','vegetable','red',22,'popular vegetable'))
-
-#db_insert(cur, "veg_fruit",["name", "type", "colour", "calorie content", "short description"],["apple", "fruit", "red", 54, "worldwide popular fruit"])
 
 conn.commit()
 
 cur.execute("SELECT * FROM veg_fruit")
 rows = cur.fetchall()
 print(rows)
-print("-------")
+print("All records:")
 for row in rows:
-   print(row[1])
+   print(row[:6])
 
 conn.close()

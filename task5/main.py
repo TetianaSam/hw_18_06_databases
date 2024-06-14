@@ -10,11 +10,6 @@ def db_insert(db_cur, table, cols, vals):
    for item in cols:
       columns += f"{item},"
 
-   """
-   values = ""
-   for item in vals:
-      values += f"'{item}',"
-   """
 
    values = " "
    for item in range(len(vals)):
@@ -38,18 +33,17 @@ cur.execute("""CREATE TABLE IF NOT EXISTS veg_fruit (
             name TEXT,
             type TEXT,
             color TEXT,
-            calorieContent INTEGER,
-            shortDescription TEXT)""")
+            calorie content INTEGER,
+            short description TEXT)""")
+if db_insert(cur, "veg_fruit", ["name", "type", "color", "calorie_content", "short_description"],
+             ["apple", "fruit", "red", 54, "worldwide popular fruit"]):
+    print("Record inserted successfully.")
+else:
+    print("Failed to insert record.")
 
-#cur.execute("""INSERT INTO users (name, age) VALUES ('Jan', 33)""")
-#cur.execute("""INSERT INTO users (name, age) VALUES (?, ?)""", ("Adam", 23))
-cur.execute("""INSERT INTO veg_fruit (name, type, color, calorieContent, shortDescription) VALUES (?, ?, ?, ?, ?)""",
-            ('potato','vegetable','white',90,'popular vegetable'))
-cur.execute("""INSERT INTO veg_fruit (name, type, color, calorieContent, shortDescription) VALUES (?, ?, ?, ?, ?)""",
-            ('apple','fruit','yellow',40,'popular vegetable'))
-#db_insert(cur, "veg_fruit",["name", "type", "colour", "calorie content", "short description"],["apple", "fruit", "red", 54, "worldwide popular fruit"])
 
 conn.commit()
+
 
 def display_menu():
     print("""
@@ -65,62 +59,79 @@ def display_menu():
     """)
 
 def user_input():
+    while True:
+        display_menu()
+        try:
+            user_choice = int(input("Enter your choice: "))
 
-    user_choice = int(input("Enter your choice: "))
+            if user_choice == 1:
+                cur.execute("SELECT * FROM veg_fruit")
+                rows = cur.fetchall()
+                print(rows)
+                print("All records:")
+                for row in rows:
+                    print(row[:6])
 
-    if user_choice == 1:
-        cur.execute("SELECT * FROM veg_fruit")
-        rows = cur.fetchall()
-        print(rows)
-        print("-------")
-        for row in rows:
-            print(row[:6])
+            elif user_choice == 2:
+                cur.execute("SELECT  * FROM veg_fruit where type = 'vegetable';")
+                rows = cur.fetchall()
+                print(rows)
+                print("All vegetables:")
+                for row in rows:
+                    print(row[:6])
 
-    if user_choice == 2:
-        cur.execute("SELECT  * FROM veg_fruit where type = 'vegetable';")
-        rows = cur.fetchall()
-        print(rows)
-        print("-------")
-        for row in rows:
-            print(row[:6])
+            elif user_choice == 3:
+                cur.execute("SELECT name FROM veg_fruit where type = 'fruit';")
+                rows = cur.fetchall()
+                print(rows)
+                print("All fruits:")
+                for row in rows:
+                    print(row[0:5])
 
-    if user_choice == 3:
-        cur.execute("SELECT name FROM veg_fruit where type = 'fruit';")
-        rows = cur.fetchall()
-        print(rows)
-        print("-------")
-        for row in rows:
-            print(row[0:5])
+            elif user_choice == 4:
+                cur.execute("SELECT name FROM veg_fruit ")
+                rows = cur.fetchall()
+                print(rows)
+                print("All names:")
+                for row in rows:
+                    print(row[0:5])
 
-    if user_choice == 4:
-        cur.execute("SELECT name FROM veg_fruit ")
-        rows = cur.fetchall()
-        print(rows)
-        print("-------")
-        for row in rows:
-            print(row[0:5])
+            elif user_choice == 5:
+                cur.execute("SELECT DISTINCT color FROM veg_fruit")
+                rows = cur.fetchall()
+                print(rows)
+                print("All unique colors:")
+                for row in rows:
+                    print(row[0:6])
 
-    if user_choice == 5:
-        cur.execute("SELECT DISTINCT color FROM veg_fruit")
-        rows = cur.fetchall()
-        print(rows)
-        print("-------")
-        for row in rows:
-            print(row[0:5])
-    if user_choice == 6:
-        cur.execute("SELECT DISTINCT * FROM veg_fruit where type = 'fruit' and color = 'yellow'")
-        rows = cur.fetchall()
-        print(rows)
-        print("-------")
-        for row in rows:
-            print(row[:6])
-    if user_choice == 7:
-        cur.execute("SELECT DISTINCT * FROM veg_fruit where type = 'vegetable' and color = 'red'")
-        rows = cur.fetchall()
-        print(rows)
-        print("-------")
-        for row in rows:
-            print(row[:6])
+            elif user_choice == 6:
+                color = input("Enter the color: ")
+                cur.execute("SELECT * FROM veg_fruit WHERE type = 'fruit' AND color = ?", (color,))
+                rows = cur.fetchall()
+                print(f"All fruits of color {color}:")
+                for row in rows:
+                    print(row)
+                print("-------")
+
+            elif user_choice == 7:
+                color = input("Enter the color: ")
+                cur.execute("SELECT * FROM veg_fruit WHERE type = 'vegetable' AND color = ?", (color,))
+                rows = cur.fetchall()
+                print(f"All vegetables of color {color}:")
+                for row in rows:
+                    print(row)
+                print("-------")
+
+            elif user_choice == 8:
+                print("Exiting the program.")
+                break
+
+            else:
+                print("Invalid choice. Please enter a number between 1 and 8.")
+
+        except ValueError:
+            print("Invalid input. Please enter a number between 1 and 8.")
+
 
 
 display_menu()
