@@ -43,7 +43,8 @@ cur.execute("""CREATE TABLE IF NOT EXISTS veg_fruit (
 
 #cur.execute("""INSERT INTO users (name, age) VALUES ('Jan', 33)""")
 #cur.execute("""INSERT INTO users (name, age) VALUES (?, ?)""", ("Adam", 23))
-cur.execute("""INSERT INTO veg_fruit (name, type, colour, calorieContent, shortDescription) VALUES (?, ?, ?, ?, ?)""",('apple', 'fruit', 'red', 55, 'worldwide popular fruit'))
+cur.execute("""INSERT INTO veg_fruit (name, type, colour, calorieContent, shortDescription) VALUES (?, ?, ?, ?, ?)""",
+            ('tomato','vegetable','red',22,'popular vegetable'))
 
 #db_insert(cur, "veg_fruit",["name", "type", "colour", "calorie content", "short description"],["apple", "fruit", "red", 54, "worldwide popular fruit"])
 
@@ -54,6 +55,6 @@ rows = cur.fetchall()
 print(rows)
 print("-------")
 for row in rows:
-   print(row[1],row[2])
+   print(row[1])
 
 conn.close()

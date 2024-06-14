@@ -43,9 +43,11 @@ cur.execute("""CREATE TABLE IF NOT EXISTS veg_fruit (
 
 #cur.execute("""INSERT INTO users (name, age) VALUES ('Jan', 33)""")
 #cur.execute("""INSERT INTO users (name, age) VALUES (?, ?)""", ("Adam", 23))
-#cur.execute("""INSERT INTO veg_fruit (name, type, colour, calorieContent, shortDescription) VALUES (?, ?, ?, ?, ?)""",('apple', 'fruit', 'red', 55, 'worldwide popular fruit'))
-
-db_insert(cur, "veg_fruit",["name", "type", "colour", "calorie content", "short description"],["apple", "fruit", "red", 54, "worldwide popular fruit"])
+cur.execute("""INSERT INTO veg_fruit (name, type, color, calorieContent, shortDescription) VALUES (?, ?, ?, ?, ?)""",
+            ('potato','vegetable','white',90,'popular vegetable'))
+cur.execute("""INSERT INTO veg_fruit (name, type, color, calorieContent, shortDescription) VALUES (?, ?, ?, ?, ?)""",
+            ('apple','fruit','yellow',40,'popular vegetable'))
+#db_insert(cur, "veg_fruit",["name", "type", "colour", "calorie content", "short description"],["apple", "fruit", "red", 54, "worldwide popular fruit"])
 
 conn.commit()
 
@@ -66,27 +68,29 @@ def user_input():
 
     user_choice = int(input("Enter your choice: "))
 
-    if user_choice  == 1:
+    if user_choice == 1:
         cur.execute("SELECT * FROM veg_fruit")
         rows = cur.fetchall()
         print(rows)
         print("-------")
         for row in rows:
-            print(row[1])
+            print(row[:6])
+
     if user_choice == 2:
-        cur.execute("SELECT type FROM veg_fruit where type = 'vegetable';")
+        cur.execute("SELECT  * FROM veg_fruit where type = 'vegetable';")
         rows = cur.fetchall()
         print(rows)
         print("-------")
         for row in rows:
-            print(row[1], row[2])
+            print(row[:6])
+
     if user_choice == 3:
-        cur.execute("SELECT type FROM veg_fruit where type = 'fruit';")
+        cur.execute("SELECT name FROM veg_fruit where type = 'fruit';")
         rows = cur.fetchall()
         print(rows)
         print("-------")
         for row in rows:
-            print(row[1], row[2], row[3])
+            print(row[0:5])
 
     if user_choice == 4:
         cur.execute("SELECT name FROM veg_fruit ")
@@ -94,7 +98,7 @@ def user_input():
         print(rows)
         print("-------")
         for row in rows:
-            print(row[1], row[2])
+            print(row[0:5])
 
     if user_choice == 5:
         cur.execute("SELECT DISTINCT color FROM veg_fruit")
@@ -102,7 +106,21 @@ def user_input():
         print(rows)
         print("-------")
         for row in rows:
-            print(row[1], row[2], row[3])
+            print(row[0:5])
+    if user_choice == 6:
+        cur.execute("SELECT DISTINCT * FROM veg_fruit where type = 'fruit' and color = 'yellow'")
+        rows = cur.fetchall()
+        print(rows)
+        print("-------")
+        for row in rows:
+            print(row[:6])
+    if user_choice == 7:
+        cur.execute("SELECT DISTINCT * FROM veg_fruit where type = 'vegetable' and color = 'red'")
+        rows = cur.fetchall()
+        print(rows)
+        print("-------")
+        for row in rows:
+            print(row[:6])
 
 
 display_menu()
