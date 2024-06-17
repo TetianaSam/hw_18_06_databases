@@ -33,10 +33,12 @@ cur.execute("""CREATE TABLE IF NOT EXISTS veg_fruit (
             name TEXT,
             type TEXT,
             color TEXT,
-            calorie content INTEGER,
-            short description TEXT)""")
-if db_insert(cur, "veg_fruit", ["name", "type", "color", "calorie_content", "short_description"],
-             ["apple", "fruit", "red", 54, "worldwide popular fruit"]):
+            calorieContent INTEGER,
+            shortDescription TEXT)""")
+cur.execute("""INSERT INTO veg_fruit (name, type, color,calorieContent,shortDescription) VALUES (?, ?, ?, ?, ?)""", ("apple", "fruit","Red", 55, "worldwide fruit"))
+
+if db_insert(cur, "veg_fruit", ["name", "type", "color", "calorieContent", "shortDescription"],
+             ["Apple", "Fruit", "green", 56, "worldwide popular fruit"]):
     print("Record inserted successfully.")
 else:
     print("Failed to insert record.")
@@ -134,6 +136,6 @@ def user_input():
 
 
 
-display_menu()
+
 user_input()
 conn.close()

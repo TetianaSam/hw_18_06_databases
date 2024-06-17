@@ -2,22 +2,23 @@ import sqlite3
 
 
 def db_insert(db_cur, table, cols, vals):
-   # check table
+
    if len(cols) != len(vals):
       return False
 
-   columns = " "
+   columns = ""
    for item in cols:
       columns += f"{item},"
 
 
-   values = " "
+   values = ""
    for item in range(len(vals)):
       values += "?,"
 
    try:
       query = f"""INSERT INTO {table} ({columns[:-1]}) VALUES ({values[:-1]})"""
       db_cur.execute(query, vals)
+      db_cur.connection.commit()
    except:
       return False
 
@@ -33,22 +34,27 @@ cur.execute("""CREATE TABLE IF NOT EXISTS veg_fruit (
             name TEXT,
             type TEXT,
             color TEXT,
-            calorie content INTEGER,
-            short description TEXT)""")
-if db_insert(cur, "veg_fruit", ["name", "type", "color", "calorie_content", "short_description"],
-             ["apple", "fruit", "red", 55, "worldwide popular fruit"]):
+            calorieContent INTEGER,
+            shortDescription TEXT)""")
+
+cur.execute("""INSERT INTO veg_fruit (name, type, color,calorieContent,shortDescription) VALUES (?, ?, ?, ?, ?)""", ("apple", "fruit","Red", 55, "worldwide fruit"))
+
+if db_insert(cur, "veg_fruit", ["name", "type", "color", "calorieContent", "shortDescription"],
+             ["Apple", "Fruit", "green", 55, "worldwide popular fruit"]):
     print("Record inserted successfully.")
 else:
     print("Failed to insert record.")
 
-
 conn.commit()
+
+
 
 cur.execute("SELECT * FROM veg_fruit")
 rows = cur.fetchall()
 print(rows)
 print("All records:")
+
 for row in rows:
-   print(row[:6])
+   print(row)
 
 conn.close()
